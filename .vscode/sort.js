@@ -83,86 +83,43 @@ function bubblesort(){
     }
 }
 
-function mergesort(array){
-    helper = [arr.length];
-    mergesortAux(arr, helper, 0, arr.length - 1);
-}
 
-function mergesortAux(arr, aux, low, high){
-    if (low < high){
-        mid = (high - low)/2 + low;
-        mergesort(arr, aux, low, mid);
-        mergesort(arr, aux, mid + 1, high);
-        merge(arr, aux, low, mid, high);
+function mergesort(){
+    console.log("mergesort");
+    array = mergesortAux(array);
+};
+
+function mergesortAux(array){
+    console.log("mergesortAux");
+    var length = array.length;
+    if(length === 1) {     
+        return array;       
     }
-}
+    var mid = Math.floor(length / 2),    
+        left = array.slice(0, mid),      
+        right = array.slice(mid, length); 
 
-function merge(arr, aux, low, mid, high){
-    /* Copy both halves of array into aux array
-     */
-    for (let i = low; i <= high; i++){
-        aux[i] = arr[i];
-    }
-    trackLeft = low;
-    trackRight = mid + 1;
-    current = low;
+    return merge(mergesortAux(left), mergesortAux(right)); 
+};
 
-    /* Iterate through helper array. Compare left and right half, copying back
-    the smaller element from the two halves into the original array
-     */
-    while (trackLeft <= mid && trackRight <= high){
-        if (aux[trackLeft] <= aux[trackRight]){
-            arr[current] = aux[trackLeft];
-            trackLeft++;
-        } else {
-            arr[current] = aux[trackRight];
-            trackRight++;
-        }
-        current++;
-        printArray(arr);
-    }
-    remaining = mid - trackLeft;
-    for (let i = 0; i < remaining; i++){
-        arr[current + 1] = aux[trackLeft + 1];
-    }
-}
-
-
-// this.mergesort = function(){
-//     array = mergeSortRec(array);
-// };
-
-// var mergeSortRec = function(array){
-//     var length = array.length;
-//     if(length === 1) {     
-//         return array;       
-//     }
-//     var mid = Math.floor(length / 2),    
-//         left = array.slice(0, mid),      
-//         right = array.slice(mid, length); 
-
-//     return merge(mergeSortRec(left), mergeSortRec(right)); 
-// };
-
-// var merge = function(left, right){
-//     var result = [], 
-//         il = 0,
-//         ir = 0;
+function merge(left, right){
+    console.log("merge");
+    var result = [], 
+        il = 0,
+        ir = 0;
  
-//     while(il < left.length && ir < right.length) { 
-//         if(left[il] < right[ir]) {
-//             result.push(left[il++]);  
-//         } else{
-//             result.push(right[ir++]);
-//         }
-//     }
-
-//     while (il < left.length){    
-//         result.push(left[il++]);
-//     }
-
-//     while (ir < right.length){   
-//         result.push(right[ir++]);
-//     }
-//     return result; 
-// };
+    while(il < left.length && ir < right.length) { 
+        if(left[il] <= right[ir]) {
+            result.push(left[il++]);  
+        } else{
+            result.push(right[ir++]);
+        }
+    }
+    while (il < left.length){    
+        result.push(left[il++]);
+    }
+    while (ir < right.length){   
+        result.push(right[ir++]);
+    }
+    return result; 
+};
